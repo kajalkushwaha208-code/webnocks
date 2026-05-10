@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Webnocks — Global IT Conglomerate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700;800&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+/* ===== DESIGN TOKENS — GOLD + BLACK + BLUE MNC ===== */
+:root {
+  --gold:       #C9A84C;
+  --gold-light: #E8C97A;
+  --gold-dark:  #8B6914;
+  --gold-glow:  rgba(201,168,76,0.35);
+  --blue:       #1A6CF0;
+  --blue-light: #4D8EF7;
+  --blue-dark:  #0D3FA6;
+  --blue-glow:  rgba(26,108,240,0.35);
+  --black:      #050507;
+  --black2:     #0A0A10;
+  --black3:     #0F0F1A;
+  --black4:     #161625;
+  --text:       #F0EDE5;
+  --text2:      #A8A399;
+  --border-g:   rgba(201,168,76,0.25);
+  --border-b:   rgba(26,108,240,0.25);
+  --border-dim: rgba(255,255,255,0.08);
+  --r:          16px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;line-height:1.6}
+img{max-width:100%}
+a{text-decoration:none;color:inherit;cursor:pointer}
+button{cursor:pointer;font-family:inherit}
+.serif{font-family:'Cormorant Garamond',serif}
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--black)}
+::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:4px}
+
+/* ===== TICKER ===== */
+#ticker{background:linear-gradient(90deg,var(--gold-dark),#6B4F0F,var(--gold-dark));border-bottom:1px solid var(--gold-dark);padding:5px 0;overflow:hidden;white-space:nowrap;position:relative;z-index:200}
+.ticker-wrap{display:flex}
+.ticker-inner{display:inline-flex;animation:marquee 28s linear infinite;gap:0}
+.ticker-inner span{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--gold-light);padding:0 28px}
+.ticker-inner span::before{content:'◆';margin-right:12px;opacity:.6}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ===== NAV ===== */
+nav{position:fixed;top:0;left:0;right:0;z-index:150;transition:all .3s}
+nav.scrolled{background:rgba(5,5,7,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border-g)}
+.nav-inner{max-width:1320px;margin:0 auto;padding:0 32px;height:72px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:800;background:linear-gradient(135deg,var(--gold-light),var(--gold),var(--blue-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-.5px}
+.nav-links{display:flex;gap:2px;align-items:center}
+.nav-links a{padding:7px 14px;border-radius:8px;font-size:13.5px;font-weight:500;color:var(--text2);transition:all .2s;letter-spacing:.01em}
+.nav-links a:hover,.nav-links a.active{color:var(--text);background:rgba(201,168,76,0.1)}
+.nav-cta{padding:9px 22px;background:linear-gradient(135deg,var(--gold-dark),var(--gold));color:var(--black);border-radius:50px;font-size:13.5px;font-weight:700;border:none;transition:all .2s;letter-spacing:.02em}
+.nav-cta:hover{box-shadow:0 0 28px var(--gold-glow);transform:scale(1.03)}
+.hamburger{display:none;background:none;border:none;color:var(--text);font-size:26px}
+.mobile-menu{display:none;flex-direction:column;gap:2px;padding:12px 16px 16px;background:var(--black2);border-bottom:1px solid var(--border-g)}
+.mobile-menu a{padding:12px 16px;border-radius:8px;color:var(--text2);font-weight:500;font-size:15px}
+.mobile-menu a:hover{background:rgba(201,168,76,0.1);color:var(--text)}
+.mobile-menu .nav-cta{margin-top:8px;text-align:center;display:block}
+
+/* ===== SECTIONS ===== */
+.container{max-width:1320px;margin:0 auto;padding:0 32px}
+section{padding:100px 0}
+.page{display:none;padding-top:72px}
+.page.active{display:block;animation:fadeUp .5s ease forwards}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== SECTION HEADER ===== */
+.sh{text-align:center;margin-bottom:72px}
+.sh-tag{display:inline-block;padding:4px 16px;border-radius:50px;border:1px solid var(--border-g);color:var(--gold);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.15em;margin-bottom:16px;background:rgba(201,168,76,0.06)}
+.sh h2{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5vw,58px);font-weight:700;line-height:1.1;margin-bottom:16px}
+.sh p{color:var(--text2);font-size:17px;max-width:620px;margin:0 auto;line-height:1.75}
+.grad-gold{background:linear-gradient(135deg,var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.grad-blue{background:linear-gradient(135deg,var(--blue-light),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.grad-mix{background:linear-gradient(135deg,var(--gold),var(--blue-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+/* ===== BUTTONS ===== */
+.btn-gold{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:linear-gradient(135deg,var(--gold-dark),var(--gold));color:var(--black);border-radius:50px;font-size:15px;font-weight:700;border:none;transition:all .25s;letter-spacing:.02em}
+.btn-gold:hover{box-shadow:0 0 40px var(--gold-glow);transform:translateY(-2px)}
+.btn-blue{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:linear-gradient(135deg,var(--blue-dark),var(--blue));color:#fff;border-radius:50px;font-size:15px;font-weight:700;border:none;transition:all .25s}
+.btn-blue:hover{box-shadow:0 0 40px var(--blue-glow);transform:translateY(-2px)}
+.btn-outline-g{display:inline-flex;align-items:center;gap:8px;padding:13px 30px;border:1.5px solid var(--gold);color:var(--gold);border-radius:50px;font-size:15px;font-weight:600;background:transparent;transition:all .25s}
+.btn-outline-g:hover{background:rgba(201,168,76,0.1);box-shadow:0 0 24px var(--gold-glow)}
+.btn-outline-b{display:inline-flex;align-items:center;gap:8px;padding:13px 30px;border:1.5px solid var(--blue-light);color:var(--blue-light);border-radius:50px;font-size:15px;font-weight:600;background:transparent;transition:all .25s}
+.btn-outline-b:hover{background:rgba(26,108,240,0.1);box-shadow:0 0 24px var(--blue-glow)}
+
+/* ===== CARDS ===== */
+.card{background:var(--black3);border:1px solid var(--border-dim);border-radius:20px;padding:32px;transition:all .3s}
+.card:hover{transform:translateY(-6px);border-color:var(--border-g);box-shadow:0 20px 60px rgba(201,168,76,0.08)}
+.card-gold-top{border-top:2px solid var(--gold)}
+.card-blue-top{border-top:2px solid var(--blue)}
+.card-icon{width:54px;height:54px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:20px;flex-shrink:0}
+.ci-gold{background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.2)}
+.ci-blue{background:rgba(26,108,240,0.12);border:1px solid rgba(26,108,240,0.2)}
+
+/* ===== DIVIDER ===== */
+.gold-line{width:60px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0 auto 32px}
+
+/* ===== HERO ===== */
+#hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;padding-top:80px}
+.hero-bg{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(120px)}
+.orb1{width:700px;height:700px;background:radial-gradient(circle,rgba(201,168,76,0.18) 0%,transparent 70%);top:-100px;left:-100px;animation:orbpulse 7s ease-in-out infinite}
+.orb2{width:600px;height:600px;background:radial-gradient(circle,rgba(26,108,240,0.15) 0%,transparent 70%);bottom:-100px;right:-100px;animation:orbpulse 9s ease-in-out infinite reverse}
+.orb3{width:400px;height:400px;background:radial-gradient(circle,rgba(201,168,76,0.08) 0%,transparent 70%);top:40%;left:50%;transform:translate(-50%,-50%);animation:orbpulse 5s ease-in-out infinite}
+@keyframes orbpulse{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.08)}}
+.hero-grid-overlay{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.04) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse at center,black 20%,transparent 75%)}
+.hero-content{position:relative;z-index:2;max-width:1000px;margin:0 auto;padding:0 32px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:7px 20px;border-radius:50px;border:1px solid var(--border-g);background:rgba(201,168,76,0.06);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--gold);margin-bottom:32px}
+.hero-badge::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--gold);animation:blink 1.5s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(50px,9vw,100px);font-weight:700;line-height:1.04;margin-bottom:28px;letter-spacing:-.02em}
+.hero-sub{font-size:19px;color:var(--text2);max-width:660px;margin:0 auto 44px;line-height:1.7}
+.hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:80px}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;max-width:880px;margin:0 auto;border:1px solid var(--border-g);border-radius:20px;overflow:hidden;background:var(--border-g)}
+.hstat{background:var(--black2);padding:28px 20px;text-align:center;transition:background .3s}
+.hstat:hover{background:var(--black3)}
+.hstat-val{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;line-height:1;margin-bottom:6px}
+.hstat-label{font-size:12px;color:var(--text2);font-weight:500;letter-spacing:.04em;text-transform:uppercase}
+
+/* ===== SERVICES ===== */
+.services-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.svc-card{background:var(--black3);border:1px solid var(--border-dim);border-radius:20px;padding:28px;position:relative;overflow:hidden;transition:all .3s;cursor:default}
+.svc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity .3s}
+.svc-card:hover{transform:translateY(-6px);border-color:var(--border-g);box-shadow:0 24px 60px rgba(0,0,0,0.4)}
+.svc-card:hover::before{opacity:1}
+.svc-number{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);font-weight:600;letter-spacing:.1em;margin-bottom:16px;opacity:.7}
+.svc-icon{font-size:32px;margin-bottom:16px}
+.svc-card h3{font-size:17px;font-weight:700;margin-bottom:10px;line-height:1.3}
+.svc-card p{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:20px}
+.svc-tags{display:flex;flex-wrap:wrap;gap:6px}
+.svc-tag{font-size:11px;padding:3px 10px;border-radius:50px;border:1px solid var(--border-g);color:var(--gold);background:rgba(201,168,76,0.05);font-weight:600;letter-spacing:.03em}
+.svc-tag.blue{border-color:var(--border-b);color:var(--blue-light);background:rgba(26,108,240,0.05)}
+.svc-cta{display:block;margin-top:20px;width:100%;padding:10px;border-radius:10px;background:transparent;border:1px solid var(--border-g);color:var(--gold);font-size:13px;font-weight:700;transition:all .2s;text-align:center}
+.svc-cta:hover{background:rgba(201,168,76,0.1);border-color:var(--gold)}
+
+/* ===== PROCESS ===== */
+.process-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.process-steps::before{content:'';position:absolute;top:40px;left:12.5%;right:12.5%;height:1px;background:linear-gradient(90deg,var(--gold-dark),var(--blue-light),var(--gold-dark));z-index:0}
+.step{text-align:center;padding:0 20px;position:relative;z-index:1}
+.step-circle{width:80px;height:80px;border-radius:50%;margin:0 auto 24px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;position:relative}
+.step-circle-g{background:linear-gradient(135deg,var(--gold-dark),var(--gold));color:var(--black);box-shadow:0 0 32px var(--gold-glow)}
+.step-circle-b{background:linear-gradient(135deg,var(--blue-dark),var(--blue));color:#fff;box-shadow:0 0 32px var(--blue-glow)}
+.step h3{font-size:16px;font-weight:700;margin-bottom:8px}
+.step p{font-size:13px;color:var(--text2);line-height:1.65}
+
+/* ===== STATS BELT ===== */
+.stats-belt{background:linear-gradient(135deg,var(--black3),var(--black4));border-top:1px solid var(--border-g);border-bottom:1px solid var(--border-g)}
+.stats-belt-inner{display:grid;grid-template-columns:repeat(5,1fr);gap:0}
+.sbelt-item{padding:40px 24px;text-align:center;border-right:1px solid var(--border-dim)}
+.sbelt-item:last-child{border-right:none}
+.sbelt-val{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:700;line-height:1;margin-bottom:6px}
+.sbelt-label{font-size:12px;color:var(--text2);font-weight:500;text-transform:uppercase;letter-spacing:.08em}
+
+/* ===== TESTIMONIALS ===== */
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.testi-card{background:var(--black3);border:1px solid var(--border-dim);border-radius:20px;padding:32px;transition:all .3s}
+.testi-card:hover{border-color:var(--border-g);transform:translateY(-4px)}
+.testi-stars{display:flex;gap:3px;margin-bottom:20px}
+.testi-stars span{color:var(--gold);font-size:16px}
+.testi-text{font-size:14.5px;color:var(--text);line-height:1.75;margin-bottom:24px;font-style:italic}
+.testi-author{display:flex;align-items:center;gap:14px}
+.testi-av{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:var(--black);flex-shrink:0}
+.tav-g{background:linear-gradient(135deg,var(--gold-dark),var(--gold))}
+.tav-b{background:linear-gradient(135deg,var(--blue-dark),var(--blue));color:#fff}
+.testi-name{font-weight:700;font-size:15px}
+.testi-role{font-size:12px;color:var(--text2)}
+
+/* ===== CASE STUDIES ===== */
+.cs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.cs-card{background:var(--black3);border:1px solid var(--border-dim);border-radius:20px;padding:36px;display:flex;gap:24px;transition:all .3s;align-items:flex-start}
+.cs-card:hover{border-color:var(--border-b);box-shadow:0 20px 50px rgba(26,108,240,0.08)}
+.cs-emoji{font-size:44px;flex-shrink:0}
+.cs-tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--blue-light);margin-bottom:8px}
+.cs-card h3{font-size:18px;font-weight:700;margin-bottom:10px}
+.cs-card p{font-size:13.5px;color:var(--text2);line-height:1.65;margin-bottom:16px}
+.cs-result{font-size:13px;color:var(--gold);font-weight:600}
+
+/* ===== PRICING ===== */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;max-width:1040px;margin:0 auto;align-items:start}
+.price-card{background:var(--black3);border:1px solid var(--border-dim);border-radius:24px;padding:40px 36px;position:relative;transition:all .3s}
+.price-card:hover{transform:translateY(-6px)}
+.price-card.featured{border-color:var(--gold);box-shadow:0 0 60px rgba(201,168,76,0.12);margin-top:-20px}
+.featured-badge{position:absolute;top:-1px;left:50%;transform:translate(-50%,-50%);background:linear-gradient(135deg,var(--gold-dark),var(--gold));color:var(--black);padding:5px 20px;border-radius:50px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;white-space:nowrap}
+.pc-tier{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:8px}
+.pc-name{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;margin-bottom:8px}
+.pc-desc{font-size:13px;color:var(--text2);margin-bottom:24px;min-height:36px}
+.pc-price{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:700;margin-bottom:8px;line-height:1}
+.pc-price sub{font-size:20px;font-weight:600;color:var(--text2);font-family:'DM Sans',sans-serif}
+.pc-price span{font-size:15px;color:var(--text2);font-family:'DM Sans',sans-serif;font-weight:400}
+.pc-btn{width:100%;padding:13px;border-radius:12px;font-size:15px;font-weight:700;border:none;margin:24px 0;transition:all .2s}
+.pc-btn-gold{background:linear-gradient(135deg,var(--gold-dark),var(--gold));color:var(--black)}
+.pc-btn-gold:hover{box-shadow:0 0 28px var(--gold-glow)}
+.pc-btn-dim{background:rgba(255,255,255,0.07);color:var(--text)}
+.pc-btn-dim:hover{background:rgba(255,255,255,0.12)}
+.pc-features{display:flex;flex-direction:column;gap:12px;border-top:1px solid var(--border-dim);padding-top:24px}
+.pc-feat{display:flex;align-items:flex-start;gap:10px;font-size:14px}
+.pf-check{color:var(--gold);flex-shrink:0;margin-top:1px;font-size:15px}
+.pf-x{color:var(--text2);flex-shrink:0;margin-top:1px;font-size:15px}
+.pc-feat.dim{color:var(--text2);opacity:.5}
+
+/* ===== PORTFOLIO ===== */
+.port-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.port-card{background:var(--black3);border:1px solid var(--border-dim);border-radius:20px;overflow:hidden;transition:all .3s}
+.port-card:hover{transform:translateY(-6px);border-color:var(--border-b)}
+.port-thumb{width:100%;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;font-size:52px;position:relative}
+.pt-gold{background:linear-gradient(135deg,rgba(201,168,76,0.15),rgba(139,105,20,0.2))}
+.pt-blue{background:linear-gradient(135deg,rgba(26,108,240,0.15),rgba(13,63,166,0.2))}
+.pt-mix{background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(26,108,240,0.12))}
+.port-body{padding:22px}
+.port-body h3{font-size:16px;font-weight:700;margin-bottom:8px}
+.port-body p{font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.65}
+.port-tags{display:flex;flex-wrap:wrap;gap:6px}
+.port-tag{font-size:11px;padding:3px 10px;border-radius:50px;border:1px solid var(--border-b);color:var(--blue-light);background:rgba(26,108,240,0.06);font-weight:600}
+
+/* ===== PROMPTS ===== */
+.prompt-cats{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:40px}
+.pcat{padding:8px 20px;border-radius:50px;border:1px solid var(--border-dim);color:var(--text2);font-size:13px;font-weight:600;background:transparent;transition:all .2s}
+.pcat:hover{border-color:var(--border-g);color:var(--gold)}
+.pcat.active{background:rgba(201,168,76,0.1);border-color:var(--gold);color:var(--gold)}
+.prompt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.prompt-card{background:var(--black3);border:1px solid var(--border-dim);border-radius:16px;padding:24px;display:flex;flex-direction:column;transition:all .3s}
+.prompt-card:hover{border-color:var(--border-g)}
+.ptag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--gold);margin-bottom:10px;background:rgba(201,168,76,0.08);border:1px solid var(--border-g);padding:3px 10px;border-radius:50px;display:inline-block}
+.prompt-card h3{font-size:15px;font-weight:700;margin-bottom:6px}
+.prompt-card .desc{font-size:12.5px;color:var(--text2);margin-bottom:14px;line-height:1.6}
+.prompt-text{font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--text2);background:var(--black2);border:1px solid var(--border-dim);border-radius:10px;padding:14px;line-height:1.7;flex:1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;margin-bottom:16px}
+.copy-btn{padding:9px;border-radius:10px;border:1px solid var(--border-g);background:transparent;color:var(--gold);font-size:12.5px;font-weight:700;transition:all .2s}
+.copy-btn:hover,.copy-btn.copied{background:rgba(201,168,76,0.12);border-color:var(--gold)}
+
+/* ===== VISION / ROADMAP ===== */
+.roadmap-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:80px}
+.rm-card{background:var(--black3);border:1px solid var(--border-dim);border-radius:20px;padding:28px;position:relative;transition:all .3s;opacity:.5}
+.rm-card.rm-active{opacity:1;border-color:var(--border-g)}
+.rm-card.rm-active:hover{transform:translateY(-4px)}
+.rm-num{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:700;color:rgba(201,168,76,0.15);line-height:1;margin-bottom:8px}
+.rm-card h3{font-size:18px;font-weight:700;margin-bottom:8px}
+.rm-card p{font-size:13px;color:var(--text2);line-height:1.65}
+.rm-badge{display:inline-block;margin-top:16px;padding:4px 14px;border-radius:50px;background:rgba(201,168,76,0.1);border:1px solid var(--border-g);color:var(--gold);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+
+/* ===== ABOUT ===== */
+.founder-wrap{display:grid;grid-template-columns:280px 1fr;gap:64px;align-items:center;margin-bottom:80px}
+.founder-av{width:220px;height:220px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dark),var(--gold),var(--blue));padding:3px;margin:0 auto}
+.founder-av-inner{width:100%;height:100%;border-radius:50%;background:var(--black3);display:flex;align-items:center;justify-content:center}
+.founder-initials{font-family:'Cormorant Garamond',serif;font-size:56px;font-weight:700;background:linear-gradient(135deg,var(--gold),var(--blue-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.team-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.team-card{display:flex;align-items:center;gap:14px;background:var(--black3);border:1px solid var(--border-dim);border-radius:14px;padding:16px;transition:all .2s}
+.team-card:hover{border-color:var(--border-g)}
+.team-av{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0}
+.skill-row{margin-bottom:20px}
+.skill-lbl{display:flex;justify-content:space-between;font-size:14px;font-weight:500;margin-bottom:8px}
+.skill-track{height:5px;background:rgba(255,255,255,0.07);border-radius:99px;overflow:hidden}
+.skill-fill{height:100%;border-radius:99px;width:0;transition:width 1.4s ease}
+.sf-gold{background:linear-gradient(90deg,var(--gold-dark),var(--gold))}
+.sf-blue{background:linear-gradient(90deg,var(--blue-dark),var(--blue))}
+.sf-mix{background:linear-gradient(90deg,var(--gold),var(--blue-light))}
+
+/* ===== CAREERS ===== */
+.role-card{display:flex;align-items:center;justify-content:space-between;background:var(--black3);border:1px solid var(--border-dim);border-radius:16px;padding:24px 28px;margin-bottom:14px;transition:all .3s;gap:20px}
+.role-card:hover{border-color:var(--border-g);transform:translateX(4px)}
+.role-title{font-size:18px;font-weight:700;margin-bottom:8px}
+.role-meta{display:flex;gap:16px;flex-wrap:wrap}
+.role-meta span{font-size:13px;color:var(--text2);display:flex;align-items:center;gap:5px}
+.role-dept{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:6px}
+.apply-btn{flex-shrink:0;padding:11px 24px;border-radius:12px;background:linear-gradient(135deg,var(--gold-dark),var(--gold));color:var(--black);font-size:13px;font-weight:700;border:none;transition:all .2s;white-space:nowrap}
+.apply-btn:hover{box-shadow:0 0 24px var(--gold-glow);transform:scale(1.03)}
+
+/* ===== CONTACT ===== */
+.contact-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:64px;align-items:start}
+.contact-info-item{display:flex;align-items:flex-start;gap:16px;margin-bottom:28px}
+.ci-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;background:rgba(201,168,76,0.08);border:1px solid var(--border-g)}
+.ci-label{font-weight:700;margin-bottom:4px;font-size:15px}
+.ci-val{font-size:14px;color:var(--text2)}
+
+/* ===== FORM ===== */
+.form-group{margin-bottom:18px}
+.form-group label{display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text2);margin-bottom:7px}
+.form-input{width:100%;background:var(--black2);border:1px solid var(--border-dim);border-radius:12px;padding:12px 16px;color:var(--text);font-size:14.5px;font-family:'DM Sans',sans-serif;transition:border-color .2s;outline:none}
+.form-input:focus{border-color:var(--gold)}
+.form-input::placeholder{color:var(--text2);opacity:.5}
+.form-grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-submit{width:100%;padding:14px;border-radius:12px;background:linear-gradient(135deg,var(--gold-dark),var(--gold));color:var(--black);font-size:15px;font-weight:700;border:none;transition:all .2s;margin-top:6px}
+.form-submit:hover{box-shadow:0 0 32px var(--gold-glow)}
+
+/* ===== BOOK CALL ===== */
+.tab-bar{display:flex;border-bottom:1px solid var(--border-dim);background:var(--black2);border-radius:20px 20px 0 0;overflow:hidden}
+.tab-item{flex:1;padding:16px;text-align:center;font-size:14px;font-weight:600;color:var(--text2);cursor:pointer;transition:all .2s;border-bottom:2px solid transparent}
+.tab-item:hover{color:var(--text)}
+.tab-item.active{color:var(--gold);border-bottom-color:var(--gold);background:rgba(201,168,76,0.05)}
+.tab-content{display:none;padding:40px}
+.tab-content.active{display:block}
+
+/* ===== FOOTER ===== */
+footer{background:var(--black2);border-top:1px solid var(--border-g);padding:80px 0 0}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:60px}
+.footer-brand-desc{color:var(--text2);font-size:14px;line-height:1.75;margin:16px 0 24px}
+.footer-social{display:flex;gap:10px}
+.fsoc{width:38px;height:38px;border-radius:10px;border:1px solid var(--border-g);display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .2s}
+.fsoc:hover{background:rgba(201,168,76,0.1);border-color:var(--gold)}
+.footer-col h4{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--gold);margin-bottom:20px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.footer-col ul li a{font-size:14px;color:var(--text2);transition:color .2s}
+.footer-col ul li a:hover{color:var(--gold)}
+.footer-bottom{border-top:1px solid var(--border-dim);padding:24px 0;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.footer-bottom p{font-size:13px;color:var(--text2)}
+.footer-links{display:flex;gap:20px}
+.footer-links a{font-size:13px;color:var(--text2);transition:color .2s}
+.footer-links a:hover{color:var(--gold)}
+
+/* ===== CHATBOT ===== */
+.chat-fab{position:fixed;bottom:88px;right:24px;z-index:140;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--blue-dark),var(--blue));color:#fff;font-size:22px;border:none;box-shadow:0 4px 24px var(--blue-glow);transition:all .2s}
+.chat-fab:hover{transform:scale(1.08);box-shadow:0 6px 32px var(--blue-glow)}
+.chat-fab.hidden{display:none}
+.chatbox{position:fixed;bottom:88px;right:24px;z-index:141;width:360px;max-height:500px;display:flex;flex-direction:column;background:var(--black3);border:1px solid var(--border-b);border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.6);overflow:hidden;animation:chatSlide .3s ease}
+@keyframes chatSlide{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.chat-head{padding:16px 20px;background:linear-gradient(135deg,var(--blue-dark),var(--blue));display:flex;align-items:center;justify-content:space-between}
+.chat-head-info{display:flex;align-items:center;gap:10px}
+.chat-av{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:18px}
+.chat-head-name{font-weight:700;font-size:14px}
+.chat-head-status{font-size:11px;opacity:.75;display:flex;align-items:center;gap:4px}
+.online-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;display:inline-block}
+.chat-close{background:rgba(255,255,255,0.15);border:none;color:#fff;width:28px;height:28px;border-radius:50%;font-size:14px;display:flex;align-items:center;justify-content:center}
+.chat-msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;max-height:280px}
+.chat-msg{max-width:82%;padding:10px 14px;border-radius:14px;font-size:13.5px;line-height:1.55}
+.msg-bot{background:var(--black4);border:1px solid var(--border-dim);align-self:flex-start;border-radius:4px 14px 14px 14px}
+.msg-user{background:linear-gradient(135deg,var(--blue-dark),var(--blue));color:#fff;align-self:flex-end;border-radius:14px 14px 4px 14px}
+.chat-quick{display:flex;gap:6px;padding:8px 12px;overflow-x:auto;border-top:1px solid var(--border-dim)}
+.quick-btn{white-space:nowrap;padding:6px 12px;border-radius:50px;border:1px solid var(--border-b);color:var(--blue-light);background:transparent;font-size:12px;font-weight:600;transition:all .2s}
+.quick-btn:hover{background:rgba(26,108,240,0.1)}
+.chat-input-row{display:flex;align-items:center;gap:8px;padding:12px;border-top:1px solid var(--border-dim)}
+.chat-input{flex:1;background:var(--black2);border:1px solid var(--border-dim);border-radius:10px;padding:9px 14px;color:var(--text);font-size:13.5px;outline:none;font-family:'DM Sans',sans-serif}
+.chat-input:focus{border-color:var(--blue-light)}
+.chat-send{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--blue-dark),var(--blue));color:#fff;border:none;font-size:15px;display:flex;align-items:center;justify-content:center}
+
+/* ===== WA FLOAT ===== */
+.wa-float{position:fixed;bottom:24px;right:24px;z-index:140;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#128C7E,#25D366);color:#fff;font-size:26px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,0.4);transition:all .2s}
+.wa-float:hover{transform:scale(1.1)}
+
+/* ===== MODAL ===== */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--black3);border:1px solid var(--border-g);border-radius:24px;width:100%;max-width:640px;max-height:90vh;overflow-y:auto;box-shadow:0 40px 100px rgba(0,0,0,0.6);transform:translateY(20px);transition:transform .3s}
+.modal-overlay.open .modal{transform:translateY(0)}
+.modal-head{padding:28px 32px 20px;border-bottom:1px solid var(--border-dim);position:sticky;top:0;background:var(--black3);z-index:1;border-radius:24px 24px 0 0;display:flex;justify-content:space-between;align-items:flex-start}
+.modal-close{background:rgba(255,255,255,0.07);border:none;color:var(--text2);width:36px;height:36px;border-radius:50%;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer}
+.modal-body{padding:28px 32px 32px}
+
+/* ===== TECH STACK ===== */
+.tech-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.tech-card{background:var(--black3);border:1px solid var(--border-dim);border-radius:14px;padding:20px 14px;text-align:center;transition:all .2s}
+.tech-card:hover{border-color:var(--border-g);transform:translateY(-3px)}
+.tech-icon{font-size:28px;margin-bottom:8px}
+.tech-name{font-size:12px;font-weight:600;color:var(--text2)}
+
+/* ===== CTA SECTION ===== */
+.cta-section{background:linear-gradient(135deg,rgba(201,168,76,0.07),rgba(5,5,7,0) 50%,rgba(26,108,240,0.07));border:1px solid var(--border-g);border-radius:32px;padding:80px 60px;text-align:center;position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:400px;height:200px;background:rgba(201,168,76,0.06);border-radius:50%;filter:blur(80px);pointer-events:none}
+
+/* ===== COUNTRIES ===== */
+.countries-wrap{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.ctag{padding:8px 18px;background:var(--black3);border:1px solid var(--border-dim);border-radius:50px;font-size:14px;transition:all .2s}
+.ctag:hover{border-color:var(--border-g);color:var(--gold)}
+
+/* ===== REVENUE CARDS ===== */
+.rev-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.rev-card{background:var(--black3);border:1px solid var(--border-dim);border-radius:18px;padding:28px 22px;text-align:center;transition:all .2s}
+.rev-card:hover{border-color:var(--border-g);transform:translateY(-4px)}
+.rev-icon{font-size:32px;margin-bottom:12px}
+.rev-card h4{font-size:16px;font-weight:700;margin-bottom:6px}
+.rev-card p{font-size:13px;color:var(--text2)}
+
+/* ===== LEAD FINDER ===== */
+.lead-finder{background:var(--black4);border:1px solid var(--border-b);border-radius:20px;padding:32px}
+.lf-title{font-size:15px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.lead-row{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:rgba(26,108,240,0.06);border:1px solid rgba(26,108,240,0.12);border-radius:10px;filter:blur(3px);pointer-events:none}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1024px){
+  .services-grid{grid-template-columns:repeat(2,1fr)}
+  .tech-grid{grid-template-columns:repeat(4,1fr)}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .stats-belt-inner{grid-template-columns:repeat(3,1fr)}
+  .sbelt-item:nth-child(4){border-top:1px solid var(--border-dim)}
+  .sbelt-item:nth-child(3){border-right:none}
+}
+@media(max-width:768px){
+  .nav-links,.nav-cta{display:none}
+  .hamburger{display:block}
+  .hero-stats{grid-template-columns:repeat(2,1fr)}
+  .hstat{border-bottom:1px solid var(--border-g)}
+  .testi-grid{grid-template-columns:1fr}
+  .cs-grid{grid-template-columns:1fr}
+  .pricing-grid{grid-template-columns:1fr}
+  .price-card.featured{margin-top:0}
+  .port-grid{grid-template-columns:1fr}
+  .prompt-grid{grid-template-columns:1fr}
+  .process-steps{grid-template-columns:1fr 1fr}
+  .process-steps::before{display:none}
+  .roadmap-grid{grid-template-columns:1fr 1fr}
+  .footer-grid{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr}
+  .form-grid2{grid-template-columns:1fr}
+  .founder-wrap{grid-template-columns:1fr;text-align:center}
+  .team-grid{grid-template-columns:1fr}
+  .rev-grid{grid-template-columns:repeat(2,1fr)}
+  .stats-belt-inner{grid-template-columns:repeat(2,1fr)}
+  .chatbox{width:calc(100vw - 32px);right:16px}
+  section{padding:70px 0}
+  .hero-content{padding:0 20px}
+  .container{padding:0 20px}
+  .tech-grid{grid-template-columns:repeat(3,1fr)}
+  .cta-section{padding:48px 24px}
+}
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div id="ticker" style="position:relative;z-index:200;margin-top:72px" id="ticker-bar">
+  <div class="ticker-wrap">
+    <div class="ticker-inner" id="t1">
+      <span>AI Automation</span><span>SEO Services</span><span>Web Development</span>
+      <span>Data Intelligence</span><span>Cloud &amp; DevOps</span><span>20+ Countries</span>
+      <span>500+ Clients</span><span>Cybersecurity</span><span>Lead Generation</span>
+      <span>AI Automation</span><span>SEO Services</span><span>Web Development</span>
+      <span>Data Intelligence</span><span>Cloud &amp; DevOps</span><span>20+ Countries</span>
+      <span>500+ Clients</span><span>Cybersecurity</span><span>Lead Generation</span>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a class="nav-logo" onclick="show('home')">Webnocks</a>
+    <div class="nav-links" id="navLinks">
+      <a onclick="show('home')" id="nav-home" class="active">Home</a>
+      <a onclick="show('services')" id="nav-services">Services</a>
+      <a onclick="show('portfolio')" id="nav-portfolio">Portfolio</a>
+      <a onclick="show('aiprompts')" id="nav-aiprompts">AI Prompts</a>
+      <a onclick="show('pricing')" id="nav-pricing">Pricing</a>
+      <a onclick="show('vision')" id="nav-vision">Vision</a>
+      <a onclick="show('about')" id="nav-about">About</a>
+      <a onclick="show('careers')" id="nav-careers">Careers</a>
+      <a onclick="show('contact')" id="nav-contact">Contact</a>
+    </div>
+    <button class="nav-cta" onclick="show('bookcall')">Free Consultation</button>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">☰</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu" style="display:none">
+    <a onclick="show('home')">Home</a><a onclick="show('services')">Services</a>
+    <a onclick="show('portfolio')">Portfolio</a><a onclick="show('aiprompts')">AI Prompts</a>
+    <a onclick="show('pricing')">Pricing</a><a onclick="show('vision')">Vision</a>
+    <a onclick="show('about')">About</a><a onclick="show('careers')">Careers</a>
+    <a onclick="show('contact')">Contact</a>
+    <button class="nav-cta" onclick="show('bookcall')">Free Consultation</button>
+  </div>
+</nav>
+
+<!-- PAGES WRAPPER -->
+<div style="margin-top:-72px">
+
+<!-- ===== HOME ===== -->
+<div class="page active" id="page-home">
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb1"></div>
+      <div class="orb orb2"></div>
+      <div class="orb orb3"></div>
+      <div class="hero-grid-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">Global Digital Growth Agency</div>
+      <h1 class="hero-title serif">
+        We don't just build <span class="grad-gold">websites,</span><br/>
+        we grow your <span class="grad-blue">business online.</span>
+      </h1>
+      <p class="hero-sub">SEO, Websites &amp; AI-powered solutions to bring you real customers — across 20+ countries worldwide.</p>
+      <div class="hero-btns">
+        <button class="btn-gold" onclick="show('bookcall')">Get Free Consultation →</button>
+        <button class="btn-outline-b" onclick="show('services')">View Our Services</button>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat"><div class="hstat-val grad-gold">500+</div><div class="hstat-label">Global Clients</div></div>
+        <div class="hstat"><div class="hstat-val grad-blue">20+</div><div class="hstat-label">Countries Served</div></div>
+        <div class="hstat"><div class="hstat-val grad-gold">200+</div><div class="hstat-label">Projects Delivered</div></div>
+        <div class="hstat"><div class="hstat-val grad-blue">98%</div><div class="hstat-label">Satisfaction Rate</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS BELT -->
+  <div class="stats-belt">
+    <div class="container">
+      <div class="stats-belt-inner">
+        <div class="sbelt-item"><div class="sbelt-val grad-gold">500+</div><div class="sbelt-label">Global Clients</div></div>
+        <div class="sbelt-item"><div class="sbelt-val grad-blue">20+</div><div class="sbelt-label">Countries</div></div>
+        <div class="sbelt-item"><div class="sbelt-val grad-gold">₹2Cr+</div><div class="sbelt-label">Revenue Generated</div></div>
+        <div class="sbelt-item"><div class="sbelt-val grad-blue">340%</div><div class="sbelt-label">Avg Traffic Growth</div></div>
+        <div class="sbelt-item"><div class="sbelt-val grad-gold">98%</div><div class="sbelt-label">Satisfaction Rate</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROCESS -->
+  <section>
+    <div class="container">
+      <div class="sh">
+        <div class="sh-tag">Our Process</div>
+        <h2 class="serif">How We <span class="grad-gold">Grow Your Business</span></h2>
+        <p>A clear, proven path from where you are to where you want to be — more traffic, more leads, more revenue.</p>
+      </div>
+      <div class="process-steps">
+        <div class="step">
+          <div class="step-circle step-circle-g">01</div>
+          <h3>Build Your Website</h3>
+          <p>Fast, professional, mobile-first website that makes a powerful first impression.</p>
+        </div>
+        <div class="step">
+          <div class="step-circle step-circle-b">02</div>
+          <h3>Rank on Google</h3>
+          <p>Get you to the top of search results for keywords your customers are searching.</p>
+        </div>
+        <div class="step">
+          <div class="step-circle step-circle-g">03</div>
+          <h3>Generate Leads</h3>
+          <p>Qualified enquiries flowing in — real people who need what you sell.</p>
+        </div>
+        <div class="step">
+          <div class="step-circle step-circle-b">04</div>
+          <h3>Increase Sales</h3>
+          <p>Convert leads into paying clients with optimized funnels and strategies.</p>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:56px">
+        <button class="btn-gold" onclick="show('bookcall')">Start Growing Today →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEAD FINDER -->
+  <section style="background:var(--black2)">
+    <div class="container">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center" class="lead-section-grid">
+        <div>
+          <div class="sh-tag" style="text-align:left">Exclusive Tool</div>
+          <h2 class="serif" style="font-size:clamp(28px,4vw,46px);margin:16px 0;line-height:1.15">Find Business Leads For <span class="grad-gold">Your Industry</span></h2>
+          <p style="color:var(--text2);font-size:16px;line-height:1.75;margin-bottom:28px">We don't just do digital marketing — we bring you real, verified business leads. Tell us your industry and target country and we'll find your next customers.</p>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:32px">
+            <div style="display:flex;align-items:center;gap:10px;font-size:14px"><span style="color:var(--gold);font-weight:700">✦</span> B2B &amp; B2C lead databases</div>
+            <div style="display:flex;align-items:center;gap:10px;font-size:14px"><span style="color:var(--gold);font-weight:700">✦</span> Country &amp; niche-specific targeting</div>
+            <div style="display:flex;align-items:center;gap:10px;font-size:14px"><span style="color:var(--gold);font-weight:700">✦</span> Verified contact info (email, phone, LinkedIn)</div>
+            <div style="display:flex;align-items:center;gap:10px;font-size:14px"><span style="color:var(--gold);font-weight:700">✦</span> Done-for-you outreach campaigns</div>
+          </div>
+          <button class="btn-gold" onclick="show('contact')">Get Leads For My Business →</button>
+        </div>
+        <div class="lead-finder">
+          <div class="lf-title">🔍 Try our Lead Finder</div>
+          <div class="form-group">
+            <label>Target Market / Country</label>
+            <select class="form-input"><option>🇺🇸 United States</option><option>🇬🇧 United Kingdom</option><option>🇦🇺 Australia</option><option>🇨🇦 Canada</option><option>🇦🇪 UAE</option><option>🇩🇪 Germany</option><option>🇸🇬 Singapore</option></select>
+          </div>
+          <div class="form-group">
+            <label>Your Niche / Industry</label>
+            <select class="form-input"><option>Real Estate Agents</option><option>Law Firms</option><option>Healthcare / Clinics</option><option>Restaurants &amp; Food</option><option>E-Commerce Stores</option><option>SaaS Companies</option><option>Coaches &amp; Consultants</option></select>
+          </div>
+          <button class="form-submit" onclick="show('contact')">Find My Leads →</button>
+          <div style="margin-top:20px;display:flex;flex-direction:column;gap:8px">
+            <div class="lead-row"><span style="font-size:13px;font-weight:600">John M.</span><span style="font-size:12px;color:var(--text2)">Real Estate - Florida</span></div>
+            <div class="lead-row"><span style="font-size:13px;font-weight:600">Sarah K.</span><span style="font-size:12px;color:var(--text2)">Law Firm - London</span></div>
+            <div class="lead-row"><span style="font-size:13px;font-weight:600">Ahmad R.</span><span style="font-size:12px;color:var(--text2)">Clinic - Dubai</span></div>
+          </div>
+          <div style="text-align:center;margin-top:10px;font-size:12px;color:var(--gold);font-weight:600">🔒 Unlock real leads — Contact us</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section>
+    <div class="container">
+      <div class="sh">
+        <div class="sh-tag">Social Proof</div>
+        <h2 class="serif">Businesses That <span class="grad-gold">Trust Webnocks</span></h2>
+        <p>Real results for real clients — from startups to scaling businesses worldwide.</p>
+      </div>
+      <div class="testi-grid">
+        <div class="testi-card">
+          <div class="testi-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+          <p class="testi-text">"Webnocks took our website from 0 to 8,000 monthly visitors in 5 months. Sales are up 3x. Worth every rupee."</p>
+          <div class="testi-author"><div class="team-av tav-g">RG</div><div><div class="testi-name">Rajesh Gupta</div><div class="testi-role">E-Commerce Owner, UK</div></div></div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+          <p class="testi-text">"They built my website, set up Google Ads, and now I get 15–20 inbound leads every month. Game changer."</p>
+          <div class="testi-author"><div class="team-av tav-b">SM</div><div><div class="testi-name">Sarah Mitchell</div><div class="testi-role">Real Estate Agent, USA</div></div></div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+          <p class="testi-text">"Professional team, fast delivery, and the SEO results speak for themselves. Page 1 for all my target keywords."</p>
+          <div class="testi-author"><div class="team-av tav-g">AR</div><div><div class="testi-name">Ahmed Al-Rashid</div><div class="testi-role">Clinic Director, UAE</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CASE STUDIES -->
+  <section style="background:var(--black2)">
+    <div class="container">
+      <div class="sh">
+        <div class="sh-tag">Case Studies</div>
+        <h2 class="serif">Proven <span class="grad-blue">Results</span></h2>
+        <p>Real projects, real numbers — see what we've delivered for our clients.</p>
+      </div>
+      <div class="cs-grid">
+        <div class="cs-card">
+          <div class="cs-emoji">🏥</div>
+          <div><div class="cs-tag">Healthcare SEO</div><h3>Clinic — 340% Traffic Growth</h3><p>Ranked #1 for 12 high-intent local keywords. Monthly leads went from 3 to 47 in 6 months.</p><div class="cs-result">✦ ₹0 → ₹2.4L/month organic revenue</div></div>
+        </div>
+        <div class="cs-card">
+          <div class="cs-emoji">🛒</div>
+          <div><div class="cs-tag">E-Commerce</div><h3>Online Store — 3x Revenue in 6 Months</h3><p>Complete website rebuild + SEO + Google Ads. Revenue grew from ₹80K to ₹2.4L/month.</p><div class="cs-result">✦ 200% ROAS on Google Ads</div></div>
+        </div>
+        <div class="cs-card">
+          <div class="cs-emoji">🏦</div>
+          <div><div class="cs-tag">FinTech</div><h3>Dubai Finance Platform — Enterprise Launch</h3><p>Secure, high-performance web platform built in 6 weeks for a Dubai-based financial services firm.</p><div class="cs-result">✦ 50,000+ users onboarded in 3 months</div></div>
+        </div>
+        <div class="cs-card">
+          <div class="cs-emoji">🤖</div>
+          <div><div class="cs-tag">AI Automation</div><h3>AI Support Agent — 10K Queries/Month</h3><p>LLM-powered customer support agent deployed for a SaaS company, reducing support costs by 70%.</p><div class="cs-result">✦ 70% cost reduction on support operations</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GLOBAL -->
+  <section>
+    <div class="container" style="text-align:center">
+      <div class="sh">
+        <div class="sh-tag">Global Presence</div>
+        <h2 class="serif">Serving <span class="grad-gold">20+ Countries</span> Worldwide</h2>
+      </div>
+      <div class="countries-wrap">
+        <div class="ctag">🇺🇸 USA</div><div class="ctag">🇬🇧 UK</div><div class="ctag">🇦🇺 Australia</div>
+        <div class="ctag">🇨🇦 Canada</div><div class="ctag">🇩🇪 Germany</div><div class="ctag">🇮🇳 India</div>
+        <div class="ctag">🇦🇪 UAE</div><div class="ctag">🇸🇬 Singapore</div><div class="ctag">🇿🇦 South Africa</div>
+        <div class="ctag">🇧🇷 Brazil</div><div class="ctag">🇫🇷 France</div><div class="ctag">🇳🇱 Netherlands</div>
+        <div class="ctag" style="border-color:var(--border-g);color:var(--gold)">+ Many More</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECH STACK -->
+  <section style="background:var(--black2)">
+    <div class="container">
+      <div class="sh">
+        <div class="sh-tag">Technology</div>
+        <h2 class="serif">Our <span class="grad-blue">Tech Stack</span></h2>
+        <p>We build with industry-leading technologies for maximum performance and scalability.</p>
+      </div>
+      <div class="tech-grid">
+        <div class="tech-card"><div class="tech-icon">⚛️</div><div class="tech-name">React</div></div>
+        <div class="tech-card"><div class="tech-icon">🟩</div><div class="tech-name">Node.js</div></div>
+        <div class="tech-card"><div class="tech-icon">🐍</div><div class="tech-name">Python</div></div>
+        <div class="tech-card"><div class="tech-icon">☁️</div><div class="tech-name">AWS</div></div>
+        <div class="tech-card"><div class="tech-icon">🔥</div><div class="tech-name">Next.js</div></div>
+        <div class="tech-card"><div class="tech-icon">🗄️</div><div class="tech-name">PostgreSQL</div></div>
+        <div class="tech-card"><div class="tech-icon">🤖</div><div class="tech-name">GPT-4 / AI</div></div>
+        <div class="tech-card"><div class="tech-icon">📊</div><div class="tech-name">Power BI</div></div>
+        <div class="tech-card"><div class="tech-icon">🔷</div><div class="tech-name">TypeScript</div></div>
+        <div class="tech-card"><div class="tech-icon">🐳</div><div class="tech-name">Docker</div></div>
+        <div class="tech-card"><div class="tech-icon">🔗</div><div class="tech-name">LangChain</div></div>
+        <div class="tech-card"><div class="tech-icon">📱</div><div class="tech-name">React Native</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section>
+    <div class="container">
+      <div class="cta-section">
+        <div class="sh-tag" style="margin-bottom:20px">Get Started</div>
+        <h2 class="serif" style="font-size:clamp(32px,5vw,58px);margin-bottom:16px">Ready to <span class="grad-gold">Elevate</span> Your Business?</h2>
+        <p style="color:var(--text2);font-size:18px;max-width:560px;margin:0 auto 40px;line-height:1.7">Join 500+ businesses that trust Webnocks to build, scale and grow their digital presence.</p>
+        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+          <button class="btn-gold" onclick="show('bookcall')">Book Free Consultation</button>
+          <button class="btn-outline-b" onclick="show('contact')">Contact Us</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /home -->
+
+<!-- ===== SERVICES ===== -->
+<div class="page" id="page-services">
+  <section><div class="container">
+    <div class="sh">
+      <div class="sh-tag">What We Do</div>
+      <h2 class="serif">Our <span class="grad-gold">Divisions</span></h2>
+      <p>Webnocks operates across 8 specialized IT divisions, providing end-to-end solutions for ambitious enterprises worldwide.</p>
+    </div>
+    <div class="services-grid">
+      <div class="svc-card card-gold-top"><div class="svc-number">01 / AI AUTOMATION</div><div class="svc-icon">🧠</div><h3>Let AI Work For You 24/7</h3><p>We deploy AI agents that handle customer enquiries, follow up on leads, and automate repetitive tasks — so you earn more while working less.</p><div class="svc-tags"><span class="svc-tag">Support Agents</span><span class="svc-tag">Lead Follow-up</span><span class="svc-tag">Chatbots</span></div><button class="svc-cta" onclick="show('bookcall')">Get AI Working For Me →</button></div>
+      <div class="svc-card card-blue-top"><div class="svc-number">02 / SEO</div><div class="svc-icon">🔍</div><h3>Get Found on Google</h3><p>We rank your business at the top of Google search so high-intent buyers find you first — not your competitors.</p><div class="svc-tags"><span class="svc-tag blue">Page 1 Rankings</span><span class="svc-tag blue">Keyword Strategy</span><span class="svc-tag blue">Content</span></div><button class="svc-cta" onclick="show('bookcall')">Rank My Business →</button></div>
+      <div class="svc-card card-gold-top"><div class="svc-number">03 / WEB DEVELOPMENT</div><div class="svc-icon">💻</div><h3>Websites That Convert</h3><p>We build fast, beautiful, mobile-first websites engineered to turn your traffic into real enquiries and sales.</p><div class="svc-tags"><span class="svc-tag">React / Next.js</span><span class="svc-tag">E-Commerce</span><span class="svc-tag">SaaS</span></div><button class="svc-cta" onclick="show('bookcall')">Build My Website →</button></div>
+      <div class="svc-card card-blue-top"><div class="svc-number">04 / DATA INTELLIGENCE</div><div class="svc-icon">📊</div><h3>Know Your Business Inside Out</h3><p>We turn your raw data into clear, visual dashboards so you always know what's working, what's not, and where to invest next.</p><div class="svc-tags"><span class="svc-tag blue">Power BI</span><span class="svc-tag blue">KPI Tracking</span><span class="svc-tag blue">Analytics</span></div><button class="svc-cta" onclick="show('bookcall')">Get My Dashboard →</button></div>
+      <div class="svc-card card-gold-top"><div class="svc-number">05 / CLOUD & DEVOPS</div><div class="svc-icon">☁️</div><h3>Never Lose a Customer to Downtime</h3><p>Rock-solid cloud infrastructure that keeps your website and systems online 24/7 — fast, secure, and always available.</p><div class="svc-tags"><span class="svc-tag">AWS / Azure</span><span class="svc-tag">99.9% Uptime</span><span class="svc-tag">Auto-Scale</span></div><button class="svc-cta" onclick="show('bookcall')">Secure Infrastructure →</button></div>
+      <div class="svc-card card-blue-top"><div class="svc-number">06 / CYBERSECURITY</div><div class="svc-icon">🛡️</div><h3>Protect What You've Built</h3><p>We safeguard your website, data, and digital assets against hacks, breaches, and threats.</p><div class="svc-tags"><span class="svc-tag blue">Security Audits</span><span class="svc-tag blue">Pen Testing</span><span class="svc-tag blue">SOC2/ISO</span></div><button class="svc-cta" onclick="show('bookcall')">Secure My Business →</button></div>
+      <div class="svc-card card-gold-top"><div class="svc-number">07 / LOGO & BRANDING</div><div class="svc-icon">🎨</div><h3>Make a Lasting First Impression</h3><p>A powerful logo and brand identity that builds instant trust, attracts premium clients, and sets you apart.</p><div class="svc-tags"><span class="svc-tag">Logo Design</span><span class="svc-tag">Brand Identity</span><span class="svc-tag">UI/UX</span></div><button class="svc-cta" onclick="show('bookcall')">Brand My Business →</button></div>
+      <div class="svc-card card-blue-top"><div class="svc-number">08 / LEAD GENERATION</div><div class="svc-icon">🎯</div><h3>A Full Pipeline of Clients</h3><p>We find, qualify, and deliver warm business leads to your inbox every month — so your sales team always has someone to talk to.</p><div class="svc-tags"><span class="svc-tag blue">B2B Leads</span><span class="svc-tag blue">LinkedIn</span><span class="svc-tag blue">Outreach</span></div><button class="svc-cta" onclick="show('bookcall')">Find Me Leads →</button></div>
+    </div>
+  </div></section>
+</div>
+
+<!-- ===== PORTFOLIO ===== -->
+<div class="page" id="page-portfolio">
+  <section><div class="container">
+    <div class="sh">
+      <div class="sh-tag">Our Work</div>
+      <h2 class="serif">Featured <span class="grad-gold">Projects</span></h2>
+      <p>From startups to global enterprises — a selection of projects we've engineered.</p>
+    </div>
+    <div class="port-grid">
+      <div class="port-card"><div class="port-thumb pt-gold">🛒</div><div class="port-body"><h3>E-Commerce Platform</h3><p>Full-stack e-commerce with AI-powered recommendations and real-time analytics. 3x revenue growth.</p><div class="port-tags"><span class="port-tag">React</span><span class="port-tag">Node.js</span><span class="port-tag">AI</span></div></div></div>
+      <div class="port-card"><div class="port-thumb pt-blue">📈</div><div class="port-body"><h3>SaaS Analytics Dashboard</h3><p>Power BI-integrated dashboard serving C-suite executives across 3 continents.</p><div class="port-tags"><span class="port-tag">Power BI</span><span class="port-tag">Python</span></div></div></div>
+      <div class="port-card"><div class="port-thumb pt-mix">🤖</div><div class="port-body"><h3>AI Customer Support Agent</h3><p>LLM-powered agent handling 10,000+ monthly support queries autonomously. 70% cost saving.</p><div class="port-tags"><span class="port-tag">GPT-4</span><span class="port-tag">LangChain</span></div></div></div>
+      <div class="port-card"><div class="port-thumb pt-gold">🏥</div><div class="port-body"><h3>Healthcare SEO Campaign</h3><p>Grew organic traffic 340% in 6 months for a UK-based healthcare provider. Page 1 for 12 keywords.</p><div class="port-tags"><span class="port-tag">SEO</span><span class="port-tag">Content Strategy</span></div></div></div>
+      <div class="port-card"><div class="port-thumb pt-blue">🏦</div><div class="port-body"><h3>FinTech Web Platform</h3><p>Secure, high-performance platform for a Dubai-based financial services company. 50K+ users.</p><div class="port-tags"><span class="port-tag">React</span><span class="port-tag">AWS</span><span class="port-tag">Security</span></div></div></div>
+      <div class="port-card"><div class="port-thumb pt-mix">🎓</div><div class="port-body"><h3>EdTech Mobile Platform</h3><p>React Native learning app with AI-generated quizzes for 50,000+ students globally.</p><div class="port-tags"><span class="port-tag">React Native</span><span class="port-tag">AI</span></div></div></div>
+    </div>
+    <div style="text-align:center;margin-top:48px">
+      <button class="btn-gold" onclick="show('contact')">Discuss Your Project →</button>
+    </div>
+  </div></section>
+</div>
+
+<!-- ===== AI PROMPTS ===== -->
+<div class="page" id="page-aiprompts">
+  <section><div class="container">
+    <div class="sh">
+      <div class="sh-tag">Free Resource</div>
+      <h2 class="serif">Free AI <span class="grad-gold">Prompts</span></h2>
+      <p>Copy-ready prompts for SEO, web development, business strategy, and more — crafted by Webnocks experts.</p>
+    </div>
+    <div class="prompt-cats" id="promptCats">
+      <button class="pcat active" onclick="filterPrompts('All',this)">All</button>
+      <button class="pcat" onclick="filterPrompts('SEO',this)">SEO</button>
+      <button class="pcat" onclick="filterPrompts('Web Dev',this)">Web Dev</button>
+      <button class="pcat" onclick="filterPrompts('Business',this)">Business</button>
+      <button class="pcat" onclick="filterPrompts('Data',this)">Data</button>
+      <button class="pcat" onclick="filterPrompts('Content',this)">Content</button>
+    </div>
+    <div class="prompt-grid" id="promptGrid"></div>
+  </div></section>
+</div>
+
+<!-- ===== PRICING ===== -->
+<div class="page" id="page-pricing">
+  <section><div class="container">
+    <div class="sh">
+      <div class="sh-tag">Investment</div>
+      <h2 class="serif">Simple, <span class="grad-gold">Transparent</span> Pricing</h2>
+      <p>Invest in growth. Choose a plan that scales with your ambitions.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="pc-tier">Starter</div>
+        <div class="pc-name serif">Foundation</div>
+        <div class="pc-desc">Perfect for small businesses looking to establish digital presence.</div>
+        <div class="pc-price"><sub>₹</sub>15,000<span>/mo</span></div>
+        <button class="pc-btn pc-btn-dim" onclick="show('bookcall')">Start Growing</button>
+        <div class="pc-features">
+          <div class="pc-feat"><span class="pf-check">✦</span>Basic SEO Optimization</div>
+          <div class="pc-feat"><span class="pf-check">✦</span>5 Page Website Maintenance</div>
+          <div class="pc-feat"><span class="pf-check">✦</span>Monthly Analytics Report</div>
+          <div class="pc-feat"><span class="pf-check">✦</span>Email Support (48h SLA)</div>
+          <div class="pc-feat"><span class="pf-check">✦</span>Basic Performance Monitoring</div>
+          <div class="pc-feat dim"><span class="pf-x">✕</span>Custom AI Automation</div>
+          <div class="pc-feat dim"><span class="pf-x">✕</span>Power BI Dashboards</div>
+          <div class="pc-feat dim"><span class="pf-x">✕</span>Dedicated Account Manager</div>
+        </div>
+      </div>
+      <div class="price-card featured">
+        <div class="featured-badge">Most Popular</div>
+        <div class="pc-tier">Growth</div>
+        <div class="pc-name serif">Accelerator</div>
+        <div class="pc-desc">Comprehensive suite for scaling companies demanding rapid growth.</div>
+        <div class="pc-price"><sub>₹</sub>35,000<span>/mo</span></div>
+        <button class="pc-btn pc-btn-gold" onclick="show('bookcall')">Scale Now</button>
+        <div class="pc-features">
+          <div class="pc-feat"><span class="pf-check">✦</span>Advanced SEO &amp; Content Strategy</div>
+          <div class="pc-feat"><span class="pf-check">✦</span>Full Web App Development</div>
+          <div class="pc-feat"><span class="pf-check">✦</span>Basic AI Chatbot Integration</div>
+          <div class="pc-feat"><span class="pf-check">✦</span>Custom Analytics Dashboard</div>
+          <div class="pc-feat"><span class="pf-check">✦</span>Priority Support (24h SLA)</div>
+          <div class="pc-feat"><span class="pf-check">✦</span>Quarterly Strategy Reviews</div>
+          <div class="pc-feat dim"><span class="pf-x">✕</span>Custom Large Language Models</div>
+        </div>
+      </div>
+      <div class="price-card">
+        <div class="pc-tier">Enterprise</div>
+        <div class="pc-name serif">Conglomerate</div>
+        <div class="pc-desc">Full-scale digital transformation for ambitious, fast-growing businesses.</div>
+        <div class="pc-price" style="font-size:36px">Custom</div>
+        <button class="pc-btn pc-btn-dim" onclick="show('bookcall')">Contact Sales</button>
+        <div class="pc-features">
+          <div class="pc-feat"><span class="pf-check">✦</span>Dedicated Engineering Squad</div>
+          <div class="pc-feat"><span class="pf-check">✦</span>Custom AI &amp; Agent Workflows</div>
+          <div class="pc-feat"><span class="pf-check">✦</span>Advanced Cloud Architecture</div>
+          <div class="pc-feat"><span class="pf-check">✦</span>Enterprise Data Intelligence</div>
+          <div class="pc-feat"><span class="pf-check">✦</span>24/7 Support (1h SLA)</div>
+          <div class="pc-feat"><span class="pf-check">✦</span>Custom Security Audits</div>
+          <div class="pc-feat"><span class="pf-check">✦</span>Dedicated Account Manager</div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:48px;padding:32px;background:var(--black3);border:1px solid var(--border-g);border-radius:20px;max-width:640px;margin-left:auto;margin-right:auto">
+      <h3 class="serif" style="font-size:24px;margin-bottom:10px">Need a custom quote?</h3>
+      <p style="color:var(--text2);font-size:15px;margin-bottom:24px">Every business is unique. Let's talk and build a tailored plan around your goals and budget.</p>
+      <button class="btn-gold" onclick="show('contact')">Talk to Our Team →</button>
+    </div>
+  </div></section>
+</div>
+
+<!-- ===== VISION ===== -->
+<div class="page" id="page-vision">
+  <section><div class="container">
+    <div class="sh">
+      <div class="sh-tag">Master Plan</div>
+      <h2 class="serif" style="font-size:clamp(40px,7vw,80px)">Build. <span class="grad-gold">Scale.</span> Grow.</h2>
+      <p>Our goal is not just to build a company — we are building a global digital ecosystem where AI, tools, and services all come together to grow businesses worldwide.</p>
+      <div style="margin-top:20px;display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--black3);border:1px solid var(--border-g);border-radius:50px;color:var(--text2);font-size:13px">🚀 Journey: Freelancer → Agency → SaaS → Global MNC</div>
+    </div>
+
+    <h3 class="serif" style="font-size:28px;text-align:center;margin-bottom:32px">Our <span class="grad-gold">Growth Roadmap</span></h3>
+    <div class="roadmap-grid">
+      <div class="rm-card rm-active"><div class="rm-num">01</div><h3>Freelancer</h3><p>Website projects, logo design &amp; basic SEO for local businesses.</p><div class="rm-badge">✓ Active Phase</div></div>
+      <div class="rm-card rm-active"><div class="rm-num">02</div><h3>Agency</h3><p>Full-service digital agency with a team of specialists, serving 500+ clients.</p><div class="rm-badge">✓ Active Phase</div></div>
+      <div class="rm-card"><div class="rm-num">03</div><h3>SaaS Company</h3><p>Launch AI-powered tools — website builder, automation platform, CRM.</p></div>
+      <div class="rm-card"><div class="rm-num">04</div><h3>Global MNC</h3><p>Operate across 50+ countries with enterprise contracts and global brand.</p></div>
+    </div>
+
+    <h3 class="serif" style="font-size:26px;text-align:center;margin-bottom:32px">Revenue <span class="grad-blue">Streams</span></h3>
+    <div class="rev-grid" style="margin-bottom:80px">
+      <div class="rev-card"><div class="rev-icon">💰</div><h4>One-time Projects</h4><p>Website, logo &amp; setup fees</p></div>
+      <div class="rev-card"><div class="rev-icon">📅</div><h4>Monthly Retainers</h4><p>Ongoing SEO &amp; support retainers</p></div>
+      <div class="rev-card"><div class="rev-icon">⚡</div><h4>SaaS Subscriptions</h4><p>Recurring tool &amp; platform revenue</p></div>
+      <div class="rev-card"><div class="rev-icon">⭐</div><h4>Digital Products</h4><p>Templates, courses &amp; training</p></div>
+    </div>
+
+    <div class="cta-section">
+      <h2 class="serif" style="font-size:clamp(28px,4vw,48px);margin-bottom:16px">Ready to be part of the <span class="grad-mix">Webnocks ecosystem?</span></h2>
+      <p style="color:var(--text2);max-width:560px;margin:0 auto 36px;font-size:17px;line-height:1.7">Start small, grow big. Let us engineer your digital future — one project at a time.</p>
+      <button class="btn-gold" onclick="show('bookcall')">Start Your Journey →</button>
+    </div>
+  </div></section>
+</div>
+
+<!-- ===== ABOUT ===== -->
+<div class="page" id="page-about">
+  <section><div class="container">
+    <div class="founder-wrap">
+      <div>
+        <div class="founder-av"><div class="founder-av-inner"><div class="founder-initials">AK</div></div></div>
+      </div>
+      <div>
+        <h1 class="serif" style="font-size:clamp(28px,4vw,52px);margin-bottom:8px">Abhijeet Singh Kushwaha</h1>
+        <h3 style="color:var(--gold);font-size:17px;font-weight:600;margin-bottom:20px">Founder &amp; CTO, Webnocks</h3>
+        <p style="font-size:16px;color:var(--text2);line-height:1.8">Abhijeet founded Webnocks with a singular vision: to give every business — from a local clinic to a global enterprise — access to world-class digital growth tools. As an engineer and strategist at heart, he believes the right blend of AI, SEO, and powerful web technology can solve the most complex business growth challenges. Under his leadership, Webnocks serves clients in 20+ countries worldwide.</p>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:64px">
+      <div>
+        <h2 class="serif" style="font-size:26px;margin-bottom:28px">Leadership <span class="grad-gold">Team</span></h2>
+        <div class="team-grid">
+          <div class="team-card"><div class="team-av" style="background:linear-gradient(135deg,var(--gold-dark),var(--gold));color:var(--black)">AK</div><div><div style="font-weight:700;font-size:15px">Abhijeet Singh Kushwaha</div><div style="font-size:12px;color:var(--text2)">Founder &amp; CTO</div></div></div>
+          <div class="team-card"><div class="team-av" style="background:linear-gradient(135deg,var(--blue-dark),var(--blue))">AH</div><div><div style="font-weight:700;font-size:15px">Ahmad</div><div style="font-size:12px;color:var(--text2)">CEO</div></div></div>
+          <div class="team-card"><div class="team-av" style="background:linear-gradient(135deg,var(--gold-dark),var(--gold));color:var(--black)">KA</div><div><div style="font-weight:700;font-size:15px">Kajal</div><div style="font-size:12px;color:var(--text2)">Data Head</div></div></div>
+          <div class="team-card"><div class="team-av" style="background:linear-gradient(135deg,var(--blue-dark),var(--blue))">DI</div><div><div style="font-weight:700;font-size:15px">Dipanshu</div><div style="font-size:12px;color:var(--text2)">SEO Lead</div></div></div>
+        </div>
+      </div>
+      <div>
+        <h2 class="serif" style="font-size:26px;margin-bottom:28px">Technical <span class="grad-blue">Expertise</span></h2>
+        <div class="skill-row"><div class="skill-lbl"><span>AI / Python</span><span style="color:var(--gold)">95%</span></div><div class="skill-track"><div class="skill-fill sf-gold" data-w="95%"></div></div></div>
+        <div class="skill-row"><div class="skill-lbl"><span>SEO &amp; Growth</span><span style="color:var(--gold)">92%</span></div><div class="skill-track"><div class="skill-fill sf-blue" data-w="92%"></div></div></div>
+        <div class="skill-row"><div class="skill-lbl"><span>Data Analytics</span><span style="color:var(--gold)">90%</span></div><div class="skill-track"><div class="skill-fill sf-mix" data-w="90%"></div></div></div>
+        <div class="skill-row"><div class="skill-lbl"><span>Web Development</span><span style="color:var(--gold)">88%</span></div><div class="skill-track"><div class="skill-fill sf-gold" data-w="88%"></div></div></div>
+        <div class="skill-row"><div class="skill-lbl"><span>Cloud &amp; DevOps</span><span style="color:var(--gold)">85%</span></div><div class="skill-track"><div class="skill-fill sf-blue" data-w="85%"></div></div></div>
+      </div>
+    </div>
+  </div></section>
+</div>
+
+<!-- ===== CAREERS ===== -->
+<div class="page" id="page-careers">
+  <section><div class="container" style="max-width:900px">
+    <div class="sh">
+      <div class="sh-tag">Join Us</div>
+      <h2 class="serif">Join <span class="grad-gold">Webnocks</span></h2>
+      <p>Build the future of digital business. We're always looking for exceptional talent to join our global, remote-friendly team.</p>
+    </div>
+    <div id="roles-list"></div>
+    <div class="card" style="margin-top:32px;text-align:center;border-color:var(--border-g)">
+      <h3 class="serif" style="font-size:24px;margin-bottom:10px">Don't see your role?</h3>
+      <p style="color:var(--text2);max-width:480px;margin:0 auto 24px;font-size:15px">We are always looking for exceptional talent. Send us your details and tell us why you'd be a great fit.</p>
+      <button class="btn-gold" onclick="openApply('Open Application')">Send Open Application →</button>
+    </div>
+  </div></section>
+</div>
+
+<!-- ===== BOOK CALL ===== -->
+<div class="page" id="page-bookcall">
+  <section><div class="container" style="max-width:800px">
+    <div class="sh">
+      <div class="sh-tag">Consultation</div>
+      <h2 class="serif">Book a <span class="grad-gold">Free Consultation</span></h2>
+      <p>Let's discuss how Webnocks can engineer your digital growth.</p>
+    </div>
+    <div class="card" style="padding:0;overflow:hidden;border-color:var(--border-g)">
+      <div class="tab-bar">
+        <div class="tab-item active" onclick="switchTab('calendly',this)">📅 Schedule Call</div>
+        <div class="tab-item" onclick="switchTab('form',this)">💬 Send Inquiry</div>
+        <div class="tab-item" onclick="switchTab('whatsapp',this)">📱 WhatsApp</div>
+      </div>
+      <div class="tab-content active" id="tab-calendly"><iframe src="https://calendly.com/abhijeetkushwaha90/30min?embed_type=Inline" width="100%" height="650" frameborder="0" title="Schedule a Call"></iframe></div>
+      <div class="tab-content" id="tab-form">
+        <form onsubmit="submitContact(event)">
+          <div class="form-grid2"><div class="form-group"><label>Name</label><input required type="text" class="form-input" placeholder="John Doe"/></div><div class="form-group"><label>Email</label><input required type="email" class="form-input" placeholder="john@company.com"/></div></div>
+          <div class="form-group"><label>Service Required</label><select class="form-input"><option>AI Automation</option><option>SEO &amp; Growth</option><option>Web Development</option><option>Data / Power BI</option><option>Other</option></select></div>
+          <div class="form-group"><label>Project Details</label><textarea required class="form-input" rows="5" placeholder="Tell us about your goals..."></textarea></div>
+          <button type="submit" class="form-submit">Submit Inquiry →</button>
+        </form>
+      </div>
+      <div class="tab-content" id="tab-whatsapp" style="text-align:center;padding:60px 40px">
+        <div style="width:80px;height:80px;background:rgba(37,211,102,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:40px;margin:0 auto 20px">📱</div>
+        <h2 class="serif" style="font-size:28px;margin-bottom:12px">Fastest Way to Reach Us</h2>
+        <p style="color:var(--text2);max-width:400px;margin:0 auto 32px;font-size:15px">Skip the forms and emails. Chat directly with our team on WhatsApp for instant replies.</p>
+        <a href="https://wa.me/917068252052" target="_blank" class="btn-gold" style="background:linear-gradient(135deg,#128C7E,#25D366);color:#fff">Message +91 7068252052</a>
+      </div>
+    </div>
+  </div></section>
+</div>
+
+<!-- ===== CONTACT ===== -->
+<div class="page" id="page-contact">
+  <section><div class="container">
+    <div class="contact-grid">
+      <div>
+        <h1 class="serif" style="font-size:clamp(32px,4vw,52px);margin-bottom:16px">Get in <span class="grad-gold">Touch</span></h1>
+        <p style="color:var(--text2);font-size:16px;margin-bottom:48px;line-height:1.75">Ready to elevate your business? Reach out to us. We serve clients globally from our HQ in India.</p>
+        <div class="contact-info-item"><div class="ci-icon">📍</div><div><div class="ci-label">Headquarters</div><div class="ci-val">Global — Remote &amp; Worldwide Operations</div></div></div>
+        <div class="contact-info-item"><div class="ci-icon">📱</div><div><div class="ci-label">Phone / WhatsApp</div><div class="ci-val">+91 7068252052</div></div></div>
+        <div class="contact-info-item"><div class="ci-icon">✉️</div><div><div class="ci-label">Email</div><div class="ci-val">admin@webnocks.work</div></div></div>
+        <div class="contact-info-item"><div class="ci-icon">📷</div><div><div class="ci-label">Instagram</div><div class="ci-val">@webnocks.work</div></div></div>
+        <div style="margin-top:32px;padding:24px;background:var(--black3);border:1px solid var(--border-g);border-radius:16px">
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:8px">Response Time</div>
+          <p style="font-size:14px;color:var(--text2)">WhatsApp — Within minutes<br/>Email — Within 4 hours<br/>Calendly — Pick your time</p>
+        </div>
+      </div>
+      <div class="card" style="border-color:var(--border-g)">
+        <h3 class="serif" style="font-size:22px;margin-bottom:4px">Send a Message</h3>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:24px">Replies via WhatsApp within minutes</p>
+        <form onsubmit="submitContactForm(event)">
+          <div class="form-grid2">
+            <div class="form-group"><label>Your Name</label><input required type="text" class="form-input" placeholder="John Doe" id="cName"/></div>
+            <div class="form-group"><label>Email Address</label><input required type="email" class="form-input" placeholder="john@company.com" id="cEmail"/></div>
+          </div>
+          <div class="form-group"><label>Service You Need</label><select class="form-input" id="cService"><option>SEO &amp; Growth Marketing</option><option>Website Development</option><option>AI Automation &amp; Chatbots</option><option>Lead Generation</option><option>Logo &amp; Brand Design</option><option>Data / Power BI Dashboard</option><option>Cloud &amp; DevOps</option><option>Other / Not Sure</option></select></div>
+          <div class="form-group"><label>Monthly Budget</label><select class="form-input" id="cBudget"><option>Under ₹15,000/mo</option><option>₹15,000 – ₹35,000/mo</option><option>₹35,000 – ₹1,00,000/mo</option><option>₹1,00,000+/mo</option><option>One-time project</option></select></div>
+          <div class="form-group"><label>Tell Us About Your Business &amp; Goals</label><textarea required class="form-input" rows="4" placeholder="What does your business do? What results are you looking for?" id="cMsg"></textarea></div>
+          <button type="submit" class="form-submit" style="display:flex;align-items:center;justify-content:center;gap:8px">💬 Send via WhatsApp</button>
+          <p style="text-align:center;font-size:12px;color:var(--text2);margin-top:10px">Your details will open in WhatsApp — just hit send.</p>
+        </form>
+      </div>
+    </div>
+  </div></section>
+</div>
+
+</div><!-- /pages -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="nav-logo" style="display:inline-block;margin-bottom:16px;cursor:pointer" onclick="show('home')">Webnocks</div>
+        <p class="footer-brand-desc">A Global IT Conglomerate empowering businesses with world-class AI Automation, SEO, Web Development, and Data Intelligence solutions. Serving 20+ countries worldwide.</p>
+        <div class="footer-social">
+          <a href="https://instagram.com/webnocks.work" target="_blank" class="fsoc" title="Instagram">📷</a>
+          <a href="https://wa.me/917068252052" target="_blank" class="fsoc" title="WhatsApp">💬</a>
+          <a href="mailto:admin@webnocks.work" class="fsoc" title="Email">✉️</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a onclick="show('about')">About Us</a></li>
+          <li><a onclick="show('services')">Services</a></li>
+          <li><a onclick="show('portfolio')">Portfolio</a></li>
+          <li><a onclick="show('vision')">Our Vision</a></li>
+          <li><a onclick="show('careers')">Careers</a></li>
+          <li><a onclick="show('pricing')">Pricing</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a onclick="show('services')">AI Automation</a></li>
+          <li><a onclick="show('services')">SEO &amp; Growth</a></li>
+          <li><a onclick="show('services')">Web Development</a></li>
+          <li><a onclick="show('services')">Data Intelligence</a></li>
+          <li><a onclick="show('services')">Cybersecurity</a></li>
+          <li><a onclick="show('services')">Lead Generation</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:+917068252052">📱 +91 7068252052</a></li>
+          <li><a href="mailto:admin@webnocks.work">✉️ admin@webnocks.work</a></li>
+          <li><a href="https://instagram.com/webnocks.work" target="_blank">📷 @webnocks.work</a></li>
+          <li><a onclick="show('bookcall')" style="color:var(--gold)">📅 Book a Call</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© <span id="yr"></span> Webnocks. All rights reserved.</p>
+      <div class="footer-links"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a></div>
+    </div>
+  </div>
+</footer>
+
+<!-- WA FLOAT -->
+<a href="https://wa.me/917068252052" target="_blank" class="wa-float" title="Chat on WhatsApp">💬</a>
+
+<!-- CHATBOT FAB -->
+<button class="chat-fab" id="chatFab" onclick="toggleChat()" title="Chat with AI">🤖</button>
+
+<!-- CHATBOX -->
+<div class="chatbox" id="chatbox" style="display:none">
+  <div class="chat-head">
+    <div class="chat-head-info"><div class="chat-av">🤖</div><div><div class="chat-head-name">Webnocks AI</div><div class="chat-head-status"><span class="online-dot"></span> Online</div></div></div>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-msgs" id="chatMsgs"></div>
+  <div class="chat-quick">
+    <button class="quick-btn" onclick="sendQuick('What services do you offer?')">Services?</button>
+    <button class="quick-btn" onclick="sendQuick('How much does SEO cost?')">SEO pricing?</button>
+    <button class="quick-btn" onclick="sendQuick('How long for results?')">Timeline?</button>
+    <button class="quick-btn" onclick="sendQuick('Do you work internationally?')">International?</button>
+  </div>
+  <div class="chat-input-row">
+    <input class="chat-input" id="chatInput" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter')sendChat()"/>
+    <button class="chat-send" onclick="sendChat()">➤</button>
+  </div>
+</div>
+
+<!-- APPLICATION MODAL -->
+<div class="modal-overlay" id="applyOverlay" onclick="if(event.target===this)closeApply()">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:6px">Job Application</div>
+        <h2 class="serif" style="font-size:24px;margin-bottom:4px" id="applyRole"></h2>
+        <p style="font-size:13px;color:var(--text2)">Fill in your details — we'll review and get back to you on WhatsApp.</p>
+      </div>
+      <button class="modal-close" onclick="closeApply()">✕</button>
+    </div>
+    <div class="modal-body">
+      <form onsubmit="submitApplication(event)">
+        <div class="form-grid2">
+          <div class="form-group"><label>Full Name *</label><input required type="text" class="form-input" placeholder="Priya Sharma" id="aName"/></div>
+          <div class="form-group"><label>Email Address *</label><input required type="email" class="form-input" placeholder="priya@email.com" id="aEmail"/></div>
+        </div>
+        <div class="form-grid2">
+          <div class="form-group"><label>Phone / WhatsApp *</label><input required type="tel" class="form-input" placeholder="+91 9876543210" id="aPhone"/></div>
+          <div class="form-group"><label>Years of Experience</label><select class="form-input" id="aExp"><option>0–1 years (Fresher)</option><option>1–2 years</option><option>2–4 years</option><option>4–7 years</option><option>7+ years</option></select></div>
+        </div>
+        <div class="form-group"><label>LinkedIn Profile URL</label><input type="url" class="form-input" placeholder="https://linkedin.com/in/yourname" id="aLinkedIn"/></div>
+        <div class="form-group"><label>Portfolio / GitHub / Website</label><input type="url" class="form-input" placeholder="https://github.com/yourname" id="aPortfolio"/></div>
+        <div class="form-group"><label>Why do you want to join Webnocks? *</label><textarea required class="form-input" rows="4" placeholder="Tell us about your skills, what excites you about this role..." id="aCover"></textarea></div>
+        <div style="background:rgba(201,168,76,0.06);border:1px solid var(--border-g);border-radius:12px;padding:14px 16px;margin-bottom:20px;font-size:13px;color:var(--text2);line-height:1.6">
+          💡 <strong style="color:var(--text)">Tip:</strong> Be specific — mention tools you know, projects you've worked on, and results you've achieved. We review every application personally.
+        </div>
+        <button type="submit" class="form-submit" style="display:flex;align-items:center;justify-content:center;gap:8px;font-size:15px">💬 Submit Application via WhatsApp</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== DATA =====
+const PROMPTS = [
+  {cat:'SEO',title:'Topical Authority Content Plan',desc:'Generate a comprehensive semantic SEO cluster strategy.',prompt:'Act as an expert SEO strategist. Create a topical authority map and content cluster strategy for the niche: [INSERT NICHE]. Provide a pillar page concept and 10 supporting cluster articles. For each, include the target keyword, search intent, and a proposed H1.'},
+  {cat:'SEO',title:'On-Page Audit Checklist',desc:'Analyze content for on-page SEO factors.',prompt:'Review the following content for on-page SEO best practices targeting the keyword [INSERT KEYWORD]. Provide specific recommendations for title tags, meta descriptions, H-tag structure, keyword density, and internal linking opportunities: [PASTE CONTENT]'},
+  {cat:'SEO',title:'Local SEO Strategy',desc:'Step-by-step local search dominance plan.',prompt:'Create a local SEO strategy for a [BUSINESS TYPE] in [CITY]. Include GMB optimization tips, local citation sources, and a 3-month local content plan.'},
+  {cat:'Web Dev',title:'React Component Architecture',desc:'Structure a scalable React component system.',prompt:'Act as a Senior React Engineer. Propose a scalable component architecture for a [TYPE OF APP]. Outline the folder structure, state management approach, and key reusable components needed.'},
+  {cat:'Web Dev',title:'API Endpoint Design',desc:'Design RESTful API endpoints for a feature.',prompt:'Design the REST API endpoints for a [FEATURE] in a SaaS application. Include the HTTP methods, paths, request payloads, and response structures for standard CRUD operations.'},
+  {cat:'Web Dev',title:'Performance Optimization',desc:'Identify frontend performance bottlenecks.',prompt:'What are the top 5 performance optimization techniques for a React single-page application that is experiencing slow load times and janky animations? Provide actionable code examples.'},
+  {cat:'Business',title:'Go-to-Market Strategy',desc:'Launch plan for a new digital product.',prompt:'Act as a startup founder. Outline a 90-day Go-to-Market strategy for a new B2B SaaS tool targeting [TARGET AUDIENCE]. Include channels, messaging, and key metrics.'},
+  {cat:'Business',title:'Competitive Analysis',desc:'Framework for analyzing market competitors.',prompt:'Provide a structured framework for analyzing the top 3 competitors in the [INDUSTRY] space. What specific metrics, features, and marketing strategies should I evaluate?'},
+  {cat:'Business',title:'Pricing Model Design',desc:'Structure pricing tiers for a service.',prompt:'Suggest a 3-tier pricing model for a [SERVICE/PRODUCT]. Define the target user for each tier, the features included, and the psychological pricing strategy.'},
+  {cat:'Data',title:'KPI Dashboard Layout',desc:'Metrics to track for executive dashboards.',prompt:'I am building a Power BI dashboard for the CEO of a [INDUSTRY] company. What are the 7 most critical KPIs that should be on the main screen, and how should they be visualized?'},
+  {cat:'Data',title:'SQL Query Generator',desc:'Complex SQL queries for data analysis.',prompt:'Write an advanced SQL query to find the top 10% of customers by lifetime value who have not made a purchase in the last 90 days. Assume standard tables for Customers, Orders, and OrderItems.'},
+  {cat:'Content',title:'LinkedIn Thought Leadership',desc:'Generate engaging LinkedIn posts.',prompt:'Act as a B2B thought leader. Write a controversial but professional LinkedIn post about the future of [INDUSTRY TREND]. Include a hook, 3 key points, and a call-to-action for comments.'}
+];
+
+const ROLES = [
+  {title:'Senior React Engineer',dept:'Web Development',loc:'Remote / Worldwide',type:'Full-time'},
+  {title:'AI/Python Developer',dept:'AI Automation',loc:'Remote',type:'Full-time'},
+  {title:'SEO Specialist',dept:'Growth Marketing',loc:'Remote / Worldwide',type:'Full-time'},
+  {title:'Power BI Analyst',dept:'Data Intelligence',loc:'Remote',type:'Contract'},
+  {title:'B2B Sales Executive',dept:'Lead Generation',loc:'Remote / Worldwide',type:'Full-time'},
+];
+
+const ANSWERS = {
+  'What services do you offer?':'We offer AI Automation, SEO, Web Development, Data Intelligence, Cloud & DevOps, Cybersecurity, Logo Design, and Lead Generation across 20+ countries.',
+  'How much does SEO cost?':'Our SEO starts from ₹15,000/mo (Starter plan). Check our Pricing page for full details, or book a free consultation!',
+  'How long for results?':'For SEO, typically 3–6 months for significant results. Web Dev and AI Automation projects are delivered in 2–4 weeks depending on complexity.',
+  'Do you work internationally?':'Yes! We serve clients in 20+ countries worldwide — USA, UK, UAE, Australia, Germany, Singapore, and more. Distance is no barrier!'
+};
+
+// ===== NAV =====
+let currentPage = 'home';
+window.addEventListener('scroll',()=>{
+  const n = document.getElementById('navbar');
+  if(window.scrollY>20) n.classList.add('scrolled'); else n.classList.remove('scrolled');
+});
+
+function show(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  const page = document.getElementById('page-'+id);
+  if(page){page.classList.add('active');}
+  const navLink = document.getElementById('nav-'+id);
+  if(navLink) navLink.classList.add('active');
+  document.getElementById('mobileMenu').style.display='none';
+  window.scrollTo({top:0,behavior:'smooth'});
+  currentPage = id;
+  if(id==='about') setTimeout(animateSkills,300);
+  if(id==='aiprompts') renderPrompts('All');
+  if(id==='careers') renderRoles();
+}
+
+function toggleMenu(){
+  const m = document.getElementById('mobileMenu');
+  m.style.display = m.style.display==='flex'?'none':'flex';
+}
+
+// ===== PROMPTS =====
+function renderPrompts(cat){
+  const grid = document.getElementById('promptGrid');
+  const filtered = cat==='All' ? PROMPTS : PROMPTS.filter(p=>p.cat===cat);
+  grid.innerHTML = filtered.map((p,i)=>`
+    <div class="prompt-card">
+      <div class="ptag">${p.cat}</div>
+      <h3>${p.title}</h3>
+      <div class="desc">${p.desc}</div>
+      <div class="prompt-text">${p.prompt}</div>
+      <button class="copy-btn" id="cpbtn-${i}" onclick="copyPrompt(${i},'${p.prompt.replace(/'/g,"\\'")}')">📋 Copy Prompt</button>
+    </div>
+  `).join('');
+}
+
+function filterPrompts(cat,btn){
+  document.querySelectorAll('.pcat').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderPrompts(cat);
+}
+
+function copyPrompt(i,text){
+  navigator.clipboard.writeText(text);
+  const btn = document.getElementById('cpbtn-'+i);
+  btn.textContent='✓ Copied!';btn.classList.add('copied');
+  setTimeout(()=>{btn.textContent='📋 Copy Prompt';btn.classList.remove('copied');},2000);
+}
+
+// ===== ROLES =====
+function renderRoles(){
+  document.getElementById('roles-list').innerHTML = ROLES.map(r=>`
+    <div class="role-card">
+      <div>
+        <div class="role-dept">${r.dept}</div>
+        <div class="role-title">${r.title}</div>
+        <div class="role-meta"><span>📍 ${r.loc}</span><span>🕐 ${r.type}</span></div>
+      </div>
+      <button class="apply-btn" onclick="openApply('${r.title}')">Apply Now</button>
+    </div>
+  `).join('');
+}
+
+// ===== APPLY MODAL =====
+function openApply(role){
+  document.getElementById('applyRole').textContent=role;
+  document.getElementById('applyOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeApply(){
+  document.getElementById('applyOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function submitApplication(e){
+  e.preventDefault();
+  const role = document.getElementById('applyRole').textContent;
+  const msg = encodeURIComponent(
+    `📋 *Job Application — Webnocks*\n\n🎯 *Role:* ${role}\n👤 *Name:* ${document.getElementById('aName').value}\n📧 *Email:* ${document.getElementById('aEmail').value}\n📱 *Phone:* ${document.getElementById('aPhone').value}\n⏳ *Experience:* ${document.getElementById('aExp').value}\n🔗 *LinkedIn:* ${document.getElementById('aLinkedIn').value||'Not provided'}\n💼 *Portfolio:* ${document.getElementById('aPortfolio').value||'Not provided'}\n📝 *Why Webnocks:* ${document.getElementById('aCover').value}`
+  );
+  window.open(`https://wa.me/917068252052?text=${msg}`,'_blank');
+  closeApply();
+}
+
+// ===== CONTACT =====
+function submitContactForm(e){
+  e.preventDefault();
+  const msg = encodeURIComponent(
+    `🌐 *New Enquiry — Webnocks*\n\n👤 *Name:* ${document.getElementById('cName').value}\n📧 *Email:* ${document.getElementById('cEmail').value}\n🛠️ *Service:* ${document.getElementById('cService').value}\n💰 *Budget:* ${document.getElementById('cBudget').value}\n📝 *Message:* ${document.getElementById('cMsg').value}`
+  );
+  window.open(`https://wa.me/917068252052?text=${msg}`,'_blank');
+}
+function submitContact(e){e.preventDefault(); window.open('https://wa.me/917068252052','_blank');}
+
+// ===== TABS =====
+function switchTab(id,btn){
+  document.querySelectorAll('.tab-item').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+}
+
+// ===== SKILL BARS =====
+function animateSkills(){
+  document.querySelectorAll('.skill-fill').forEach(el=>{
+    el.style.width = el.getAttribute('data-w')||'0%';
+  });
+}
+
+// ===== CHAT =====
+let chatOpen = false;
+const msgs = [{who:'bot',text:"Hi! 👋 I'm the Webnocks AI assistant. How can I help you today?"}];
+
+function renderMsgs(){
+  document.getElementById('chatMsgs').innerHTML = msgs.map(m=>`<div class="chat-msg msg-${m.who}">${m.text}</div>`).join('');
+  document.getElementById('chatMsgs').scrollTop = 9999;
+}
+
+function toggleChat(){
+  chatOpen = !chatOpen;
+  document.getElementById('chatbox').style.display = chatOpen?'flex':'none';
+  document.getElementById('chatFab').classList.toggle('hidden',chatOpen);
+  if(chatOpen) renderMsgs();
+}
+
+function sendChat(){
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if(!text) return;
+  msgs.push({who:'user',text});
+  input.value='';
+  renderMsgs();
+  setTimeout(()=>{
+    const ans = ANSWERS[text]||"Great question! For a detailed answer, WhatsApp us at +91 7068252052 for instant reply.";
+    msgs.push({who:'bot',text:ans});
+    renderMsgs();
+  },600);
+}
+
+function sendQuick(text){
+  msgs.push({who:'user',text});
+  renderMsgs();
+  setTimeout(()=>{
+    const ans = ANSWERS[text]||"For more details, WhatsApp us at +91 7068252052!";
+    msgs.push({who:'bot',text:ans});
+    renderMsgs();
+  },600);
+}
+
+// ===== TICKER POSITION FIX =====
+// Move ticker below nav
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  // fix ticker position
+  const ticker = document.getElementById('ticker');
+  ticker.style.marginTop = '72px';
+  // adjust pages wrapper
+});
+
+// ===== RESPONSIVE GRID FIX =====
+function fixGrids(){
+  const w = window.innerWidth;
+  const lgrid = document.querySelector('.lead-section-grid');
+  if(lgrid) lgrid.style.gridTemplateColumns = w<768?'1fr':'1fr 1fr';
+}
+window.addEventListener('resize',fixGrids);
+fixGrids();
+
+// ===== YEAR =====
+document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
